@@ -11,6 +11,15 @@ import math
 from adafruit_display_text import label
 from adafruit_st7789 import ST7789
 
+# Display configuration constants
+DISPLAY_WIDTH = 240
+DISPLAY_HEIGHT = 320
+DISPLAY_ROWSTART = 80  # Offset for 2.4" display
+
+# Animation configuration constants
+SCROLL_SPEED = 2  # Pixels to scroll per frame
+FRAME_DELAY = 0.05  # Seconds between frames (20 FPS)
+
 # Release any previously used displays
 displayio.release_displays()
 
@@ -29,17 +38,17 @@ display_bus = displayio.FourWire(
 # Create the ST7789 display (2.4" TFT, 240x320 pixels)
 display = ST7789(
     display_bus,
-    width=240,
-    height=320,
+    width=DISPLAY_WIDTH,
+    height=DISPLAY_HEIGHT,
     rotation=0,
-    rowstart=80  # Offset for 2.4" display
+    rowstart=DISPLAY_ROWSTART
 )
 
 # Create a display group
 main_group = displayio.Group()
 
 # Create a background color (black)
-color_bitmap = displayio.Bitmap(240, 320, 1)
+color_bitmap = displayio.Bitmap(DISPLAY_WIDTH, DISPLAY_HEIGHT, 1)
 color_palette = displayio.Palette(1)
 color_palette[0] = 0x000000  # Black
 bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=color_palette, x=0, y=0)
@@ -58,7 +67,7 @@ main_group.append(text_area)
 
 # Create a bitmap for the sine wave (scrolling area)
 wave_height = 200
-wave_width = 240
+wave_width = DISPLAY_WIDTH
 wave_bitmap = displayio.Bitmap(wave_width, wave_height, 3)
 wave_palette = displayio.Palette(3)
 wave_palette[0] = 0x000000  # Black (background)
@@ -115,7 +124,7 @@ while True:
     draw_sine_wave(x_offset)
     
     # Update the offset to create scrolling effect
-    x_offset = (x_offset + 2) % wave_width
+    x_offset = (x_offset + SCROLL_SPEED) % wave_width
     
     # Small delay to control scroll speed
-    time.sleep(0.05)
+    time.sleep(FRAME_DELAY)
