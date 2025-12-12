@@ -1,0 +1,11 @@
+# CircuitPython Library Requirements
+# 
+# These libraries should be installed in the 'lib' folder on your CIRCUITPY drive
+# Download from: https://circuitpython.org/libraries
+#
+# Required libraries:
+# - adafruit_st7789.mpy (ST7789 display driver)
+# - adafruit_display_text/ (text display utilities)
+#
+# CircuitPython Version: 8.x or higher
+# Tested on: Adafruit Feather ESP32-S2
